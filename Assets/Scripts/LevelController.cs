@@ -11,6 +11,7 @@ public class LevelController : MonoBehaviour {
 
     GameTimer gameTimer;
     [SerializeField] int amountOfAttackers = 0;
+    bool gameLost = false;
 
 	void Start () {
         gameTimer = FindObjectOfType<GameTimer>();
@@ -36,9 +37,9 @@ public class LevelController : MonoBehaviour {
     private void CheckIfPlayerWonGame()
     {
         //logic for boss level
-        if (FindObjectOfType<DefenderSpawner>().GetIsBossLevel() && amountOfAttackers <= 0)
+        if (!gameLost && FindObjectOfType<DefenderSpawner>().GetIsBossLevel() && amountOfAttackers <= 0)
         {
-            PlayerPrefsController.SetWonGame();
+            PlayerPrefsController.SetWonGame(); //set here because this is the last level
             StartCoroutine(HandleWinCondition());
         }
         //logic for normal levels
@@ -64,6 +65,11 @@ public class LevelController : MonoBehaviour {
         loseLabel.SetActive(true);
         AudioSource.PlayClipAtPoint(loseSFX, Camera.main.transform.position);
         PlayerPrefsController.SetLostGame();
+    }
+
+    public void SetGameLost()
+    {
+        this.gameLost = true;
     }
 
 

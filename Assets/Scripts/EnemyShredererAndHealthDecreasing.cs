@@ -14,9 +14,11 @@ public class EnemyShredererAndHealthDecreasing : MonoBehaviour {
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        LevelController levelController = FindObjectOfType<LevelController>();
         if (collision.gameObject.tag.Equals("Boss"))
         {
-            FindObjectOfType<LevelController>().HandleLoseCondition();
+            levelController.SetGameLost();
+            levelController.HandleLoseCondition();
         }
         else
         {
